@@ -2,6 +2,8 @@
 
 Just some note, and examples on using R2 Bucket from a worker; and how this works when development locally.
 
+https://github.com/cloudflare/workers-sdk/issues/8868#issuecomment-2840098674
+
  1) Locall vs Remote bucket
  2) Configure wrangler, to bind buckers
  3) Put asset into a bucket, with the correctly meta data for the resource.

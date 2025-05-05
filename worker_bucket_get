@@ -1,0 +1,53 @@
+
+const ResourceName = "2025.json"
+export default {
+	async fetch(request) {
+		// Read the (file) resource,inital we get the resource object.
+		var R2Object = await env.BUCKET.get(name)
+		var result = ""
+
+
+		if (R2Object != undefined) {
+
+	    // Now we can check for the (file) resource
+			console.log("File " + name + ": contentType = " + R2Object.httpMetadata.contentType)
+
+			if (R2Object.httpMetadata.contentType == "text/plain") {
+
+				result = await R2Object.text()
+
+			} else if (R2Object.httpMetadata.contentType == "application/json") {
+
+				// Test only read JSON, than convert back to text
+				var object = await R2Object.json()
+				result = JSON.stringify(object)
+
+			} else if (R2Object.range.length > 0) {
+
+				// Test only assume text
+				console.log("No contentType: Assuming text");
+
+				try {
+					result = await R2Object.text()
+				} catch (e) {
+					console.log(e)
+				}
+			}
+		}
+
+		if (R2Object == undefined || R2Object.httpMetadata.contentType == undefined) {
+			console.log("---------------------------")
+			console.log("Error reading bucket resource : " + name)
+			console.log("---------------------------")
+			console.log(R2Object)
+		} else {
+			console.log("---------------------------")
+			console.log("OKAY: Reading bucket resource : " + name)
+			console.log("---------------------------")
+			console.log(result)
+		}
+
+		return new Response(result);
+
+	},
+};

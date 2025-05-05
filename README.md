@@ -1,32 +1,30 @@
-# R2 Bucket from a worker
+# Using R2 Bucket from a worker
 
-Just some note, and examples on using R2 Bucket from a worker; and how this works when development locally.
+Just some notes, and examples on using R2 Bucket from a worker; and how this works when developing  locally.
 
-https://github.com/cloudflare/workers-sdk/issues/8868#issuecomment-2840098674
+Based on bug fix: https://github.com/cloudflare/workers-sdk/issues/8868#issuecomment-2840098674
 
- 1) Locall vs Remote bucket
- 2) Configure wrangler, to bind buckers
- 3) Put asset into a bucket, with the correctly meta data for the resource.
- 4) Checking the meta type of the resource, when getting the resource from a bucket
- 5) Process the resource base on its type; (eg) Json or text.
+ 1) Local vs Remote bucket.
+ 2) Configure wrangler, to bind buckets.
+ 3) Put resource asset into a bucket, and add meta data type.
+ 4) Get resource from a bucket, and checking the meta type.
+ 5) Process the resource base on its type; (eg) JSON or text.
 
 ### 1. Run local dev using:
 ```
 npx wrangler dev --remote
 ```
 
-Use **--remote**; enable the locally worker to access the data stored remotly on the cloudlflare server.
-If the **-remote** is not use then wrangler will create local buckers on your computer, base on the **r2_buckets: []**
+Use **--remote**; enables the locally worker to access the data stored remotely on Cloudflare servers.
+If the **-remote** is not use then wrangler will create local buckets on your computer, base on the **r2_buckets: []**
 configuration in your "wrangler.jsonc" file. And the worker will use this local data store.
 
 Note:
- - **bucket_name:**  is name backet to use when worker is deployed live; (running remotly on the Cloudflare server)
- - **preview_bucket_name:** is used by the worker when running from local dev.
+ - **bucket_name:**  is named bucket to use when worker is deployed live; (worker is also remote on the Cloudflare server)
+ - **preview_bucket_name:** is used by the worker when running from local dev, but the remote data will come from an alternative but for testing.
 
 To use the same bucket as the live, simple use the live bucket name for both **bucket_name**, and **preview_bucket_name**
 However, note your locally app will than have access to over write your live data.
-
-
 ### 2. Example wrangler, with binding to R2 buckets, live and preview
 
 wrangler.jsonc
